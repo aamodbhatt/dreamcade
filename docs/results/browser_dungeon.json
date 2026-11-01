@@ -1,0 +1,13 @@
+{
+  "game": "dungeon",
+  "diffusion_steps": 3,
+  "gif_frames": 150,
+  "measured_over_ticks": 40,
+  "dream_fps": 3.71,
+  "model_ms_per_frame": 258.6,
+  "backend": "wasm",
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+  "webgpuAdapter": null,
+  "crossOriginIsolated": true,
+  "hardwareConcurrency": 96
+}

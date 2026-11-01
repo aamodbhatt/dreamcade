@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CUDA_VISIBLE_DEVICES: ""
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      # The lockfile pins the CUDA 13 build of torch. CI installs every other locked dependency
+      # (no torch, triton or CUDA wheels, which are gigabytes), then the CPU build of the same
+      # torch and torchvision versions, then the project itself. The export is already the full
+      # pinned closure, so --no-deps stops lpips from pulling the latest CUDA torch from PyPI.
+      - name: Install (CPU-only PyTorch)
+        run: |
+          uv venv
+          uv export --frozen --no-hashes --no-emit-project --extra ml --group dev \
+            | grep -v -E '^(torch|triton|nvidia-|cuda-)' > "$RUNNER_TEMP/requirements-ci.txt"
+          uv pip install --no-deps -r "$RUNNER_TEMP/requirements-ci.txt"
+          uv pip install --index-url https://download.pytorch.org/whl/cpu torch==2.14.1 torchvision==0.29.1
+          uv pip install --no-deps -e .
+
+      - name: Lint
+        run: |
+          uv run --no-sync ruff check .
+          uv run --no-sync ruff format --check .
+
+      - name: Type-check
+        run: uv run --no-sync mypy
+
+      - name: JavaScript ports match the Python engines
+        run: node tests/js/parity.mjs
+
+      - name: Tests
+        run: uv run --no-sync pytest
