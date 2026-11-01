@@ -1,0 +1,7 @@
+# Laptop / CI sized dataset.
+[gen]
+game = "dungeon"
+shards = 1
+episodes_per_shard = 4
+steps = 40
+seed = 1

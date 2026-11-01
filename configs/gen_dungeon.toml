@@ -1,0 +1,7 @@
+# 6 shards x 96 agents x 500 steps = 288k transitions (~3.5 GB of 64x64 RGB frames).
+[gen]
+game = "dungeon"
+shards = 6
+episodes_per_shard = 96
+steps = 500
+seed = 11

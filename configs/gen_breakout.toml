@@ -1,0 +1,7 @@
+# 4 shards x 48 games x 1000 steps = 192k transitions (~0.8 GB of 64x64 palette frames).
+[gen]
+game = "breakout"
+shards = 4
+episodes_per_shard = 48
+steps = 1000
+seed = 23

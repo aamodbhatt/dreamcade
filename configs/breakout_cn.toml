@@ -1,0 +1,11 @@
+# Breakout, context noise: up to 4% of context pixels re-coloured at random.
+[train]
+data = "data/breakout"
+out = "runs/breakout_cn"
+seed = 0
+context = 4
+batch = 128
+lr = 1e-3
+max_steps = 12000
+max_minutes = 6.0
+ctx_flip_max = 0.04

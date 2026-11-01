@@ -1,0 +1,15 @@
+# CPU-sized run for laptops and CI: tiny model, a few steps.
+[train]
+data = "data/dungeon_tiny"
+out = "runs/dungeon_laptop"
+channels = [32, 64]
+attn_levels = [1]
+emb_dim = 64
+batch = 4
+max_steps = 20
+max_minutes = 5.0
+holdout_episodes = 1
+log_every = 5
+ckpt_every = 10
+bf16 = false
+data_on_gpu = false

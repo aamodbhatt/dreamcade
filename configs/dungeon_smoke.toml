@@ -1,0 +1,9 @@
+# GPU smoke test: real data, full-size model, ~1 minute, to measure throughput.
+[train]
+data = "data/dungeon"
+out = "runs/dungeon_smoke"
+batch = 64
+max_steps = 300
+max_minutes = 1.5
+log_every = 25
+ckpt_every = 300

@@ -1,0 +1,13 @@
+# CPU-sized Breakout run for laptops and CI.
+[train]
+data = "data/breakout_tiny"
+out = "runs/breakout_laptop"
+channels = [16, 32]
+batch = 8
+max_steps = 20
+max_minutes = 5.0
+holdout_episodes = 1
+log_every = 5
+ckpt_every = 10
+bf16 = false
+data_on_gpu = false

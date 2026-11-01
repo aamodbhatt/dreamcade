@@ -1,0 +1,11 @@
+# Breakout, teacher forcing: context frames are always ground truth.
+[train]
+data = "data/breakout"
+out = "runs/breakout_tf"
+seed = 0
+context = 4
+batch = 128
+lr = 1e-3
+max_steps = 12000
+max_minutes = 6.0
+ctx_flip_max = 0.0
