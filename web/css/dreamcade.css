@@ -1,0 +1,84 @@
+:root {
+  --bg: #07060d;
+  --panel: #120f1f;
+  --ink: #e8e4ff;
+  --muted: #8d86b3;
+  --accent: #ff4fd8;
+  --accent-2: #41e0ff;
+  --screen: min(42vw, 448px);
+  font-family: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; background: radial-gradient(ellipse at top, #1b1233 0%, var(--bg) 60%); }
+
+header { text-align: center; }
+h1 { margin: 0; font-size: 34px; letter-spacing: 6px; text-transform: uppercase; text-shadow: 0 0 12px rgba(255, 79, 216, 0.6); }
+h1 span { color: var(--accent); }
+.tagline { margin: 6px 0 0; color: var(--muted); font-size: 13px; max-width: 640px; }
+
+.bar { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.group { display: inline-flex; border: 1px solid #2c2547; border-radius: 8px; overflow: hidden; }
+button { font: inherit; font-size: 13px; color: var(--ink); background: var(--panel); border: 0; padding: 7px 14px; cursor: pointer; }
+.group button + button { border-left: 1px solid #2c2547; }
+button:hover { background: #1f1936; }
+button.active { background: var(--accent); color: #12051a; font-weight: 700; }
+.controls > button { border: 1px solid #2c2547; border-radius: 8px; }
+
+.stage { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
+.screen { margin: 0; display: none; flex-direction: column; align-items: center; gap: 8px; }
+body[data-view="real"] #real-screen,
+body[data-view="dream"] #dream-screen,
+body[data-view="split"] #real-screen,
+body[data-view="split"] #dream-screen,
+body[data-view="diff"] #diff-screen,
+body[data-view="diff"] #dream-screen { display: flex; }
+body[data-view="dream"], body[data-view="real"] { --screen: min(90vw, 576px); }
+
+.screen canvas {
+  width: var(--screen);
+  height: var(--screen);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border-radius: 14px;
+  box-shadow: 0 0 0 3px #231d3d, 0 0 40px rgba(65, 224, 255, 0.18);
+  display: block;
+}
+/* CRT: scanlines + vignette drawn over the canvas without blurring its pixels. */
+.screen { position: relative; }
+.screen::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: var(--screen); height: var(--screen);
+  border-radius: 14px;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.45) 100%);
+}
+#dream-screen canvas { box-shadow: 0 0 0 3px #3a1840, 0 0 40px rgba(255, 79, 216, 0.25); }
+figcaption { font-size: 12px; letter-spacing: 2px; color: var(--muted); }
+#dream-screen figcaption { color: var(--accent); }
+
+.panel { width: min(100%, 940px); background: var(--panel); border: 1px solid #2c2547; border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.stats div { display: flex; flex-direction: column; min-width: 90px; }
+.label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.stats span:last-child { font-size: 18px; color: var(--accent-2); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.controls label { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; }
+input[type="range"] { accent-color: var(--accent); }
+#status { margin: 0; font-size: 13px; color: var(--muted); }
+#status.error { color: #ff6b6b; }
+.keys { margin: 0; font-size: 12px; color: var(--muted); }
+kbd { border: 1px solid #3b3360; border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; color: var(--ink); }
+body[data-game="breakout"] .dungeon-only, body[data-game="dungeon"] .breakout-only { display: none; }
+footer a { color: var(--muted); font-size: 12px; }
+
+@media (max-width: 720px) {
+  :root { --screen: min(44vw, 300px); }
+  .stage { gap: 10px; }
+}

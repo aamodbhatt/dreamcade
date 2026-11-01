@@ -1,0 +1,6 @@
+{
+  "name": "dreamcade-web",
+  "private": true,
+  "type": "module",
+  "description": "The dreamcade browser player: vanilla ES modules, no build step."
+}

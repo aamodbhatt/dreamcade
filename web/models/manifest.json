@@ -1,0 +1,36 @@
+{
+  "breakout": {
+    "bytes": 9984104,
+    "context": 4,
+    "parity": {
+      "ort_cpu_ms": 136.78,
+      "pixel_mismatch": 0.0
+    },
+    "parts": [
+      "breakout.onnx.part0"
+    ],
+    "sha256": "11dc9edf5891bd0fc5fde7b7adfd793e30c4c143eef92fc13b9f1727c5a11bc0",
+    "trainedSteps": 1414
+  },
+  "dungeon": {
+    "bytes": 38065990,
+    "context": 4,
+    "defaultCtxSigma": 0.05,
+    "defaultSteps": 3,
+    "parity": {
+      "max_abs_diff": 6.556510925292969e-07,
+      "mean_abs_diff": 1.1296731372567592e-07,
+      "ort_cpu_ms": 238.23
+    },
+    "parts": [
+      "dungeon.onnx.part0",
+      "dungeon.onnx.part1",
+      "dungeon.onnx.part2"
+    ],
+    "rho": 7.0,
+    "sha256": "3e7ffc4b6c14a73bcb685b8fb44289f1ebcbd17f7fb0ca8fa9ea66c2ec7ac0ed",
+    "sigmaMax": 5.0,
+    "sigmaMin": 0.002,
+    "trainedSteps": 11234
+  }
+}

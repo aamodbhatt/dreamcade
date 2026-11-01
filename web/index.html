@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>dreamcade</title>
+  <meta name="description" content="Arcade games that run entirely inside a neural network.">
+  <link rel="stylesheet" href="css/dreamcade.css">
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/ort.min.js"
+          integrity="sha384-N94xSNjPDbfBJj4+QINst0nbHpcCm8kc1qNlIP/wA0muqjR3aVyIuDkMeccPrLvQ"
+          crossorigin="anonymous"></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body data-view="split" data-game="dungeon">
+  <header>
+    <h1>dream<span>cade</span></h1>
+    <p class="tagline">Every frame on the right is imagined by a neural network from your key presses. No game engine in the loop.</p>
+  </header>
+
+  <nav class="bar">
+    <div class="group" role="group" aria-label="Game">
+      <button data-set-game="dungeon">Dungeon</button>
+      <button data-set-game="breakout">Breakout</button>
+    </div>
+    <div class="group" role="group" aria-label="View">
+      <button data-set-view="dream">Dream</button>
+      <button data-set-view="real">Real</button>
+      <button data-set-view="split">Split</button>
+      <button data-set-view="diff">Diff</button>
+    </div>
+  </nav>
+
+  <main class="stage">
+    <figure class="screen" id="real-screen">
+      <canvas id="real" width="64" height="64" aria-label="Real game"></canvas>
+      <figcaption>REAL &middot; game engine</figcaption>
+    </figure>
+    <figure class="screen" id="dream-screen">
+      <canvas id="dream" width="64" height="64" aria-label="Neural dream"></canvas>
+      <figcaption>DREAM &middot; neural network</figcaption>
+    </figure>
+    <figure class="screen" id="diff-screen">
+      <canvas id="diff" width="64" height="64" aria-label="Difference"></canvas>
+      <figcaption>DIFF &middot; |dream &minus; real|</figcaption>
+    </figure>
+  </main>
+
+  <section class="panel">
+    <div class="stats">
+      <div><span class="label">dream fps</span><span id="fps">-</span></div>
+      <div><span class="label">model</span><span id="ms">-</span></div>
+      <div><span class="label">backend</span><span id="backend">-</span></div>
+      <div><span class="label">psnr vs real</span><span id="psnr">-</span></div>
+      <div><span class="label">frame</span><span id="frame">0</span></div>
+    </div>
+    <div class="controls">
+      <label class="dungeon-only">diffusion steps <input id="steps" type="range" min="1" max="8" value="3"><output id="steps-value">3</output></label>
+      <button id="corrupt" title="Scramble the frames the network remembers">Corrupt memory</button>
+      <button id="resync" title="Restart both games from the same frame">Restart</button>
+      <button id="attract" title="Toggle the autopilot">Autopilot</button>
+    </div>
+    <p id="status" role="status">loading...</p>
+    <p class="keys dungeon-only"><kbd>W</kbd>/<kbd>&uarr;</kbd> forward &middot; <kbd>S</kbd>/<kbd>&darr;</kbd> back &middot; <kbd>A</kbd>/<kbd>D</kbd> turn &middot; <kbd>Q</kbd>/<kbd>E</kbd> strafe</p>
+    <p class="keys breakout-only"><kbd>&larr;</kbd>/<kbd>&rarr;</kbd> move &middot; <kbd>Space</kbd> serve</p>
+  </section>
+  <footer>
+    <a href="https://github.com/aamodbhatt/dreamcade">github.com/aamodbhatt/dreamcade</a>
+  </footer>
+</body>
+</html>
