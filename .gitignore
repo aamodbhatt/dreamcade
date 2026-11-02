@@ -32,6 +32,3 @@ web/models/*.onnx
 .idea/
 .DS_Store
 Thumbs.db
-
-# Local working notes
-/RESUME.md

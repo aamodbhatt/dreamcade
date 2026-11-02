@@ -98,7 +98,7 @@ GPU memory as `uint8`, so there is no data loader to starve the GPU on 8 shared 
   classifier is exact when right and its mistakes are discrete and easy to measure.
 - **Full-resolution U-Net.** About 4x the FLOPs per denoising step for little visible gain at
   this resolution, and it would push browser inference far from interactive.
-- **Separate models per context length.** Not affordable in a 75 GPU-minute budget; the context
-  length is fixed at 4 and its ablation is listed in the roadmap.
+- **Separate models per context length.** Not affordable with training capped at 46
+  GPU-minutes; the context length is fixed at 4 and its ablation is listed in the roadmap.
 - **96x72 dungeon frames.** 1.7x more pixels per step; 64x64 keeps WASM inference closer to
   interactive and matches the Atari setting of DIAMOND.

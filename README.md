@@ -128,8 +128,9 @@ that the player joins and checks against a SHA-256 hash.
 ## Results
 
 All numbers are from real runs on a **single NVIDIA A40 (48 GB) shared with other jobs, with
-about 8 vCPUs**. The whole project used at most **76 GPU-minutes** (job wall-clock, including time spent waiting for a shared GPU slot). These are short runs by
-world-model standards: the dungeon model saw 1.44M training windows, about 5 passes over its data.
+about 8 vCPUs**. Training is capped by `max_minutes` in `configs/`: **46 GPU-minutes** for
+the dungeon and 6 minutes per Breakout model. These are short runs by world-model standards: the dungeon model saw 1.44M training windows, about 5
+passes over its data.
 
 ### Dungeon diffusion world model
 
@@ -251,11 +252,11 @@ between frames.
 ### In the browser
 
 Both GIFs above were recorded with Playwright and headless Chromium 156 driving the real
-player on the pod, in frame-step mode: the recorder advances one tick, waits for the dream
-frame and takes a screenshot. The GIFs therefore play at the game's tick rate (15 Hz for the
-dungeon, 30 Hz for Breakout), whatever the inference speed. Real-time speed was then measured
-free-running, over 40 ticks, in the same headless Chromium on the pod's CPU (a quota of about
-8 cores):
+player on a cloud GPU machine (NVIDIA A40), in frame-step mode: the recorder advances one
+tick, waits for the dream frame and takes a screenshot. The GIFs therefore play at the game's
+tick rate (15 Hz for the dungeon, 30 Hz for Breakout), whatever the inference speed. Real-time
+speed was then measured free-running, over 40 ticks, in the same headless Chromium on the
+cloud machine's CPU (a quota of about 8 cores):
 
 | Game | Backend | Model time per frame | Dream FPS |
 | --- | --- | --- | --- |
@@ -263,14 +264,14 @@ free-running, over 40 ticks, in the same headless Chromium on the pod's CPU (a q
 | Breakout (1 network call) | WASM, cross-origin isolated (threads) | 60 ms | **14.9** |
 | Either game | WebGPU | not measured | not measured |
 
-**Every browser number in this README is a WASM (CPU) number from headless Chromium.** The
-pod's headless Chromium exposes no hardware WebGPU adapter (forcing it on gives a SwiftShader
-software adapter, which is slower than WASM), so no GPU was used for browser inference. In a
-desktop browser with WebGPU, the player picks the GPU backend automatically and shows it on
-screen. One dungeon network call is about 5.5 GFLOPs, so WebGPU on a discrete GPU should be much
-faster than the CPU path, but **WebGPU speed has not been measured**. On WASM the dungeon is
-playable as a slow dream; drop the steps slider to 1 for roughly 3x the frame rate (with
-blurrier frames, see the ablation above). Raw measurements:
+**Every browser number in this README is a WASM (CPU) number from headless Chromium.**
+Headless Chromium on the cloud machine exposes no hardware WebGPU adapter (forcing it on gives
+a SwiftShader software adapter, which is slower than WASM), so no GPU was used for browser
+inference. In a desktop browser with WebGPU, the player picks the GPU backend automatically
+and shows it on screen. One dungeon network call is about 5.5 GFLOPs, so WebGPU on a discrete
+GPU should be much faster than the CPU path, but **WebGPU speed has not been measured**. On
+WASM the dungeon is playable as a slow dream; drop the steps slider to 1 for roughly 3x the
+frame rate (with blurrier frames, see the ablation above). Raw measurements:
 [`browser_dungeon.json`](docs/results/browser_dungeon.json),
 [`browser_breakout.json`](docs/results/browser_breakout.json).
 
@@ -341,7 +342,7 @@ src/dreamcade/
 web/           the player: index.html, css/, js/ (engine ports, dream runtimes), models/, assets/
 tests/         pytest suite, golden trajectories, Node parity script
 scripts/       Playwright capture (README GIFs + browser FPS)
-configs/       typed TOML configs (pod and laptop sizes)
+configs/       typed TOML configs (cloud A40 and laptop sizes)
 docs/          DESIGN.md, results/ (JSON, plots, galleries), assets/ (GIFs)
 ```
 
